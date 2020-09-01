@@ -1,0 +1,117 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Signature CSC service REST API description. This service is used to sign PDF documents using underlying CSC signature server.",
+    "version": "1.0.0",
+    "title": "Signature CSC service",
+    "contact": {
+      "email": "me@bntan.com"
+    },
+    "license": {
+      "name": "License",
+      "url": "https://www.bntan.com"
+    }
+  },
+  "host": "[host]",
+  "basePath": "/signature",
+  "tags": [
+    {
+      "name": "Signature",
+      "description": "Signature services"
+    }
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/signPDF": {
+      "post": {
+        "tags": [
+          "Signature"
+        ],
+        "summary": "Sign PDF document",
+        "operationId": "signPDF",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "document-signature-request",
+            "required": true,
+            "description": "The signature request",
+            "schema": {
+              "$ref": "#/definitions/document-signature-request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The signature success response",
+            "schema": {
+              "$ref": "#/definitions/document-signature-response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "document-signature-request": {
+      "type": "object",
+      "required": [
+        "document_to_sign"
+      ],
+      "properties": {
+        "client_id": {
+          "type": "string",
+          "description": "Client ID. For OAuth mode"
+        },
+        "redirect_uri": {
+          "type": "string",
+          "description": "Redirect URI. For OAuth mode"
+        },
+        "authorization_code": {
+          "type": "string",
+          "description": "Authorization code. For OAuth mode"
+        },
+        "user_name": {
+          "type": "string",
+          "description": "User name. For Basic mode"
+        },
+        "user_secret": {
+          "type": "string",
+          "description": "User secret. For Basic mode"
+        },
+		"user_password": {
+          "type": "string",
+          "description": "User password (PIN)"
+        },
+        "document_to_sign": {
+          "type": "string",
+          "format": "base 64",
+          "description": "PDF document to sign encoded in base 64"
+        }
+      }
+    },
+    "document-signature-response": {
+      "type": "object",
+      "properties": {
+        "signed_document": {
+          "type": "string",
+          "format": "base 64",
+          "description": "Signed PDF document encoded in base 64"
+        },
+        "error_code": {
+          "type": "string",
+          "description": "Error code"
+        },
+        "error_message": {
+          "type": "string",
+          "description": "Error message"
+        }
+      }
+    }
+  }
+}
